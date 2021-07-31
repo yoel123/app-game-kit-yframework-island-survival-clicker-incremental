@@ -1,0 +1,13 @@
+in the main game menu you have the craft items button.
+in the crafting menu you have lists of items you can craft.
+potions are available only after you get the alchemy upgrade.
+each item has resources you need to have and tools needed to create it.
+for example: to create fiber you need 2 twigs and a stone handaxe.
+after "you need" are the items that will be reduced after you craft the item.
+after "requires" are the item you need to own to craft the item, they dont get reduced
+when you craft the item.
+bronze tools are stronger and if they break you have a 50% chance to get back 1 
+bronze.
+to win the game you will need to craft a longboat.
+|||you need a stone hammer and a forg to craft bronze tools|||
+and dont forget that tools may break when used (for gathering/fighting).

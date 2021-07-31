@@ -1,0 +1,11 @@
+potions are the fast lane, a few speed and crafting potions can win you the game.
+to craft potions you need three things. buy the alchemy upgrade, craft a glass vial,
+and have the rare ingredients (there is a low chance to find them when you collect
+resources).
+to use a potion go to collect resources, and if you have the alchemy upgrade you will have a
+button called potions.
+in the potions screen use one potion at a time. speed potion will double the resourses you 
+collect for its duration, streangth potion will double your attack power when you fight zombies,
+fire skin wont let any zombies touch you as you have a fire aura, the crafting potion will double the
+items you craft, mineral sight will help you mine ores better.
+on the beach you can find pike and power seed, sell the sand you dont need for points.

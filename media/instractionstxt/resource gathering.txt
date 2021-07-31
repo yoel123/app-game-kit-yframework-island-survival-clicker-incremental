@@ -1,0 +1,11 @@
+to gather resources click on collect resources in the main game screen.
+pick a location you want to try gathering resources from, collecting resources costs points,
+5 points for woods and for the rest its 10 points per click.
+certin tools will help you collect more resources for example:
+an axe will help you chop more wood at the forrest, a pickaxe will help you mine more ore
+in the mine, a shovel will help you gather sand on the beach.
+bewere as you waltz around you may attract the attention of zombies that will disrupt your efforts
+and instead of collecting resources you will run for your life, in small numbers they are not a threat.
+but in large numbers you will have to fight them to be able to collect resourses safely.
+also while collecting resources your tools might break and you will need to craft new ones.
+bronze tools has less chance of breacking

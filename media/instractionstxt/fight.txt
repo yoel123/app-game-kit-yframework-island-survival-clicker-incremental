@@ -1,0 +1,23 @@
+zombies will disrupt your resource gathering.
+in the fight screen you can either fight or make traps.
+
+when you click fight you will attempt to fight the zombies.
+the fight mechanics are simple you and the zombies have attack power,
+whoever has the larget attack power wins, if you win you get to remove a couple zombies.
+if the zombies win nothing happens and they get to disrupt your resource gathering.
+
+some tools like axes,pikaxes and the bronze sword can add to your attack power.
+the zombie attack power increase with thier numbers.
+
+when you decide to fight you will prepere and chose where the fight happens, meaning,
+you will spread your weapons around so you can reach them easely and lore mindless zombies
+into traps.
+traps alone can help you dispose of zombies untill they break or filled up.
+wepons and tools might break in combat.
+
+traps are active when you gather resource and may get rid of zombies for you.
+have a veriety of traps to dispatch more zombies at once.
+after you "kill" a zombie you get cloth and braines, the braines you can sell/secrefice
+for points, the cloth is used to create sails for the long boat.
+
+fighting zombies does not cost points.

@@ -1,0 +1,3 @@
+to get points click on the button called "button", points are used for upgrades and for gathering resources
+as clicking areas like "visit woods" cost points.
+the other ways to get points are via the auto clicker upgrade or sell resources upgrade.
