@@ -169,9 +169,9 @@ function zombie_fight()
 	if is_potion_activen("strength potion")  then mult = mult*2
 	
 	//too many zombies
-	if zombie_num > 12 then dec mult,10
-	if zombie_num > 26 then dec mult,15
-	if zombie_num > 30 then dec mult,20
+	if zombie_num > 13 then dec mult,10
+	if zombie_num > 27 then dec mult,15
+	if zombie_num > 32 then dec mult,20
 	
 	zombie_power = random(1,50)+(zombie_num/2)
 	
@@ -298,6 +298,8 @@ function use_weapon(n as string)
 	if has_res
 		if FindStringCount(n,"hand") then  dec ret,2
 		if FindStringCount(n,"stone") then inc ret,7
+		if FindStringCount(n,"obsidian") then inc ret,10
+		if FindStringCount(n,"spear") then inc ret,10
 		if FindStringCount(n,"bronze") then inc ret,15
 		if FindStringCount(n,"axe") then inc ret,12
 		if FindStringCount(n,"pickaxe") then inc ret,4
@@ -306,8 +308,10 @@ function use_weapon(n as string)
 		if FindStringCount(n,"sword") then inc ret,25
 		
 		//weapon break chance
-		if FindStringCount(n,"stone") then res_chance_to_break(n,10)
+		if FindStringCount(n,"stone") then res_chance_to_break(n,7)
 		if FindStringCount(n,"bronze") then res_chance_to_break(n,5)
+		if FindStringCount(n,"obsidian") then res_chance_to_break(n,10)
+		if FindStringCount(n,"wood") then res_chance_to_break(n,10)
 	endif
 	
 endfunction ret

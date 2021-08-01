@@ -1,6 +1,21 @@
 
 
 function save_game()
+	//if its an html5 build
+	if yisHtml5
+		upstr as String
+		resstr as String
+		upstr = upgrades_to_str()
+		resstr = res_to_str()
+		SaveSharedVariable("yupgrades",upstr)
+		SaveSharedVariable("yresources",resstr)
+		SaveSharedVariable("ypoints",str(points))
+		SaveSharedVariable("yzombie_num",str(zombie_num))
+		SaveSharedVariable("yis_auto_clicker_active",str(is_auto_clicker_active))
+		SaveSharedVariable("yauto_clicker_time",str(auto_clicker_time))
+		exitfunction
+	endif
+	
 	upgradesDb.save( "upgrades.json" )
 	resource_db.save( "resources.json" )
 	ylocations.save( "locations.json" )
@@ -16,6 +31,22 @@ function save_game()
 endfunction
 
 function load_game()
+	//if its an html5 build
+	if yisHtml5
+		upstr as String
+		resstr as String
+		upstr = LoadSharedVariable("yupgrades","")
+		resstr = LoadSharedVariable("yresources","")
+		str_to_upgrades(upstr)
+		str_to_res(resstr)
+		
+		points = val( LoadSharedVariable("ypoints","") )
+		zombie_num = val( LoadSharedVariable("yzombie_num","") )
+		is_auto_clicker_active = val( LoadSharedVariable("yis_auto_clicker_active","") )
+		auto_clicker_time = val( LoadSharedVariable("yauto_clicker_time","") )
+		edit_timer("auto_clicker",auto_clicker_time) 
+		exitfunction
+	endif
 	
 	if GetFileExists( "upgrades.json" ) = 0 then exitfunction
 	upgradesDb.load( "upgrades.json" )

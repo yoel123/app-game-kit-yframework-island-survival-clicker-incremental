@@ -16,9 +16,11 @@ global upgradesTo = 4
 global upgradesDb as yupgrade[] 
 global upgradestxts as integer[]
 
-upgradesDb.insert( createUpgrade("click add","adds 1 to your click",30) )
-upgradesDb.insert( createUpgrade("click add2","adds 2 to your click",90) )
+upgradesDb.insert( createUpgrade("click add","adds 1 to your click",12) )
+upgradesDb.insert( createUpgrade("click add2","adds 2 to your click",70) )
 upgradesDb.insert( createUpgrade("slow auto clicker","auto clicks slowly",50) )
+upgradesDb.insert( createUpgrade("fast auto clicker","clicks faster",250) )
+upgradesDb.insert( createUpgrade("even faster auto clicker","clicks even faster",400) )
 upgradesDb.insert( createUpgrade("find mine","find a place to mine ors and crystals",100) )
 upgradesDb.insert( createUpgrade("beach location","another place to gather resources",300) )
 upgradesDb.insert( createUpgrade("volcano location","another place to gather resources",150) )
@@ -29,7 +31,8 @@ upgradesDb.insert( createUpgrade("make atlatl","an ancient weapon from the cavem
 upgradesDb.insert( createUpgrade("bigger traps","lure the zombies to thier doom",300) )
 upgradesDb.insert( createUpgrade("alchemy","create potions",900) )
 upgradesDb.insert( createUpgrade("graveyard","when you want more zombies",100) )
-upgradesDb.insert( createUpgrade("fast auto clicker","clicks faster",250) )
+upgradesDb.insert( createUpgrade("master crafter","tools you make tend to break less",500) )
+
 
 
 function displayUpgrades()
@@ -165,6 +168,13 @@ function doUpgrade(name as string)
 		auto_clicker_time = 1
 		points = points-u.cost
 	endif
+	if name = "even faster auto clicker"
+		is_auto_clicker_active = 1
+		setUpgradeActive(name)
+		edit_timer("auto_clicker",0.5) 
+		auto_clicker_time = 0.5
+		points = points-u.cost
+	endif
 	
 	if name = "find mine" 
 		makeYlocationActive("mine")
@@ -222,6 +232,10 @@ function doUpgrade(name as string)
 		makeYlocationActive("graveyard")
 		points = points-u.cost
 	endif
+	if name = "master crafter" 
+		setUpgradeActive(name)
+		points = points-u.cost
+	endif
 	
 	
 	
@@ -252,3 +266,24 @@ function getUpgradeTypeByName(name as string)
 		if upgradesDb[i].name = name then ret = upgradesDb[i]
 	next i
 endfunction ret
+
+////////////////html5 hrlpers///////////
+function upgrades_to_str()
+	ret as string
+		
+	for i = 0 to upgradesDb.length//upgradesDb.length
+
+		ret = ret+str(upgradesDb[i].is_active)+","
+	next i
+
+endfunction ret
+
+function str_to_upgrades(s as string)
+	splitArray as String[]
+	splitArray = split(s,",")
+	for i = 0 to upgradesDb.length//upgradesDb.length
+
+		upgradesDb[i].is_active = val(splitArray[i])
+	next i
+
+endfunction 

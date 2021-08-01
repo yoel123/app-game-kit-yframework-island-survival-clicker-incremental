@@ -33,6 +33,7 @@ global virtualBtnId = 1
 
 global points = 0
 
+global yisHtml5 = 0
 
 
 
@@ -548,5 +549,11 @@ win game:
 build ship
 
 
+
+cenlog:
+*new weapons:spear,obsidian knife
+*new upgrades: even faster auto clicker, maste crafter
+*lowe price for click upgrades
+*html version
 
 */

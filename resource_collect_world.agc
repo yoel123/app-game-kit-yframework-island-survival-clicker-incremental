@@ -21,6 +21,7 @@ make_res("stone axe",0,25)
 make_res("fiber",0,10)
 make_res("wood",1,10)
 make_res("wood shovel",0,10)
+make_res("wood spear",0,10)
 make_res("stone hammer",0,25)
 make_res("forg",0,150)
 make_res("copper ore",0,10)
@@ -38,6 +39,7 @@ make_res("hanging log trap",0,50)
 make_res("brain",0,30)
 make_res("cloth",0,20)
 make_res("obsidian",0,40)
+make_res("obsidian knife",0,50)
 make_res("atlatl",0,80)
 make_res("long arrow",0,50)
 make_res("sand",0,20)
@@ -138,8 +140,9 @@ function res_chance_to_break(n as string, chance)
 	res = get_res(n)
 	rand1 = random(1,100)
 	rand2 = random(1,100)
+	if isUpgradeActive("master crafter")  and rand2>30 then exitfunction 0 //
 	if rand1 <= chance 
-		 ret = 1
+		ret = 1
 		red_res(n,1)
 		//if its a bronze item you have 50% chance to get the bronze back
 		if FindStringCount(n,"bronze") and rand2<50 then inc_res("bronze",1)
@@ -511,3 +514,25 @@ function sell_res_do( n as string )
 	show_resources(30,55)
 
 endfunction rand
+
+
+////////////////html5 hrlpers///////////
+function res_to_str()
+	ret as string
+		
+	for i = 0 to resource_db.length//upgradesDb.length
+
+		ret = ret+str(resource_db[i].amount)+","
+	next i
+
+endfunction ret
+
+function str_to_res(s as string)
+	splitArray as String[]
+	splitArray = split(s,",")
+	for i = 0 to resource_db.length//upgradesDb.length
+
+		resource_db[i].amount = val(splitArray[i])
+	next i
+
+endfunction 
