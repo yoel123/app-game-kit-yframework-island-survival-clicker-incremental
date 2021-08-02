@@ -19,19 +19,19 @@ recipes.insert(create_recipe("stone hand axe","stone","3","stone","its a premtiv
 recipes.insert(create_recipe("stone axe","fiber,wood,stone","1,1,3","stone","its a premtive stone axe with handle"))
 recipes.insert(create_recipe("fiber","twig","2","stone hand axe","premtive rope"))
 recipes.insert(create_recipe("stone hammer","fiber,wood,stone","1,1,2","","premtive hammer with handle"))
-recipes.insert(create_recipe("forg","wood,stone","5,15","stone hammer","used to forge metal tools"))
-recipes.insert(create_recipe("bronze","tin ore,copper ore","1,1","forg","strong alloy for making tools"))
+recipes.insert(create_recipe("forge","wood,stone","5,15","stone hammer","used to forge metal tools"))
+recipes.insert(create_recipe("bronze","tin ore,copper ore","1,1","forge","strong alloy for making tools"))
 recipes.insert(create_recipe("stone pickaxe","fiber,wood,stone","1,1,2","","a tool for mining"))
 recipes.insert(create_recipe("wood shovel","fiber,wood","2,3","stone axe","a tool for digging"))
 recipes.insert(create_recipe("wood spear","wood","2","stone hand axe","basic but effective weapon"))
-recipes.insert(create_recipe("bronze shovel","fiber,wood,bronze","2,2,2","stone hammer,forg","a better tool for digging(for pit traps and collecting sand)"))
-recipes.insert(create_recipe("bronze sword","bronze,fiber,stone","4,2,2","stone hammer,forg","a better tool for killing zombies"))
-recipes.insert(create_recipe("bronze axe","bronze,fiber,stone","3,2,2","stone hammer,forg","a better tool for choping wood"))
-recipes.insert(create_recipe("bronze pickaxe","bronze,fiber,stone","5,2,2","stone hammer,forg","a better tool for mining"))
-recipes.insert(create_recipe("atlatl","wood,stone","1,1","forg","a weapon for throwing long arrows"))
+recipes.insert(create_recipe("bronze shovel","fiber,wood,bronze","2,2,2","stone hammer,forge","a better tool for digging(for pit traps and collecting sand)"))
+recipes.insert(create_recipe("bronze sword","bronze,fiber,stone","4,2,2","stone hammer,forge","a better tool for killing zombies"))
+recipes.insert(create_recipe("bronze axe","bronze,fiber,stone","3,2,2","stone hammer,forge","a better tool for choping wood"))
+recipes.insert(create_recipe("bronze pickaxe","bronze,fiber,stone","5,2,2","stone hammer,forge","a better tool for mining"))
+recipes.insert(create_recipe("atlatl","wood,stone","1,1","forge","a weapon for throwing long arrows"))
 recipes.insert(create_recipe("long arrow","wood,obsidian,fiber","1,1,1","","a long arrows for atlatl"))
 recipes.insert(create_recipe("obsidian knife","obsidian","2","","10 times sharper then steel but still glass"))
-recipes.insert(create_recipe("glass vial","sand","1","forg","a container to hold potions"))
+recipes.insert(create_recipe("glass vial","sand","1","forge","a container to hold potions"))
 recipes.insert(create_recipe("speed potion","glass vial,haste seed","1,3","","makes you faster"))
 recipes.insert(create_recipe("strength potion","glass vial,power seed","1,5","","your strength have doubled"))
 recipes.insert(create_recipe("fire skin potion","glass vial,volcanic flower","1,4","","no one can touch you"))
@@ -39,9 +39,9 @@ recipes.insert(create_recipe("crafting potion","glass vial,black mushroom","1,6"
 recipes.insert(create_recipe("mineral sight potion","glass vial,pike seed","1,5","","you find more mineral/ores"))
 recipes.insert(create_recipe("net","fiber","8","bronze axe","premtive net"))
 recipes.insert(create_recipe("rope","fiber","10","bronze axe","an actual rope"))
-recipes.insert(create_recipe("sail","fiber,cloth","7,15","bronze axe","an actual rope"))
+recipes.insert(create_recipe("sail","fiber,cloth","7,15","bronze axe","a ship needs sails"))
 recipes.insert(create_recipe("barrel","wood,bronze","5,1","bronze axe","a container for stuff you will take on the ship"))
-recipes.insert(create_recipe("long boat","wood,bronze,barrel,rope,net,sail","50,10,5,5,3,2","bronze axe,forg,stone hammer,stone hand axe","your way out of the island"))
+recipes.insert(create_recipe("long boat","wood,bronze,barrel,rope,net,sail","50,15,5,5,3,2","bronze axe,forge,stone hammer,stone hand axe","your way out of the island"))
 
 
 function create_recipe(n as string,res as string,amountr as string,ts as string,desc as string)
@@ -142,7 +142,9 @@ function craft_items_view()
 	res as resource
 	DeleteAllText()
 	remove_by_type("craft_do","craft")
+	remove_by_type("craft_do5","craft")
 	remove_by_type("dont_craft","craft")
+	remove_by_type("dont_craft5","craft")
 	removeYbtnByType("craft_paginate_btn")
 	
 	//loop upgrade y from top
@@ -182,6 +184,16 @@ function craft_items_view()
 		btn.ystrings.insert(recipes[i].name) //upgrade name
 		btn.yints.insert(i) //upgrade id
 		recycle("craft",btn)
+		SetSpriteScale(btn.id,0.4,1)
+		
+		//if cant craft gray out
+		if can_craft ="dont_craft" then SetSpriteColor(btn.id,169,169,169,60)
+		//craft5
+		btn = ymake_btn2("craftdo5.png",190,top+30,craftDo5ImageID,can_craft+"5")
+		btn.ystrings.insert(recipes[i].name) //upgrade name
+		btn.yints.insert(i) //upgrade id
+		recycle("craft",btn)
+		SetSpriteScale(btn.id,0.4,1)
 		
 		//if cant craft gray out
 		if can_craft ="dont_craft" then SetSpriteColor(btn.id,169,169,169,60)
@@ -233,6 +245,24 @@ function clickCraft()
 			
 		endif
 	next i
+	btns = get_by_type("craft_do5")
+	
+	//remove btn entities
+	for i = 0 to btns.length
+		if is_clicked(btns[i])
+			//ydebug = ydebug+btns[i].ystrings[0]
+			//try crafting btns first string (holds the craft item name
+			craft(btns[i].ystrings[0]) 
+			craft(btns[i].ystrings[0]) 
+			craft(btns[i].ystrings[0]) 
+			craft(btns[i].ystrings[0]) 
+			craft(btns[i].ystrings[0]) 
+				
+			craft_items_view()
+			
+			
+		endif
+	next i
 	
 endfunction //end clickUpgrades
 
@@ -246,6 +276,25 @@ function clickCantCraft()
 		if is_clicked(btns[i])
 				ydebug ="you need "
 				//ger recipie
+				r = get_recipe(btns[i].ystrings[0])
+				for j=0 to r.resources.length
+					ydebug = ydebug+" "+r.resources[j]+" ("+str(r.amounts[j])+") ,"
+					
+				next j
+				//print requirments
+				if r.tools.length >-1 then ydebug = ydebug+chr(10)+" requires "+ craftRecAsString(r)
+				ydebug = ydebug+" to craft "+btns[i].ystrings[0]
+			 
+			
+		endif
+	next i
+	btns = get_by_type("dont_craft5")
+
+	//remove btn entities
+	for i = 0 to btns.length
+		if is_clicked(btns[i])
+				ydebug ="you need "
+				//get recipie
 				r = get_recipe(btns[i].ystrings[0])
 				for j=0 to r.resources.length
 					ydebug = ydebug+" "+r.resources[j]+" ("+str(r.amounts[j])+") ,"

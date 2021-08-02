@@ -35,7 +35,8 @@ global points = 0
 
 global yisHtml5 = 0
 
-
+global bokenlogs as string
+global broken as ybtn
 
 //init vars
 gamew as yworld
@@ -49,6 +50,7 @@ craftw as yworld
 fightw as yworld 
 potionsw as yworld 
 winw as yworld 
+brokelogw as yworld 
 //worlds
 gamew = newyworld("game")
 menuw = newyworld("menu")
@@ -61,6 +63,7 @@ craftw = newyworld("craft")
 fightw = newyworld("fight")
 potionsw = newyworld("potionw")
 winw = newyworld("win")
+brokelogw = newyworld("brokenlog")
 
 ///////////////////////////buttons///////////////
 
@@ -94,6 +97,7 @@ global backUpgrades as yentity
 global backShowres as yentity
 global backCraft as yentity
 global backpotion as yentity
+global backbroken as yentity
 
 
 global clickMultiplier = 1 //the amount of points add for each click
@@ -142,6 +146,7 @@ backShowres = ymake_btn("backbtn.png",backx,35,backImageID,"showres")
 backCraft = ymake_btn("backbtn.png",backx+150,47,backImageID,"craft")
 backfight = ymake_btn("backbtn.png",backx,35,backImageID,"fight")
 backpotion = ymake_btn("backbtn.png",backx,35,backImageID,"potionw")
+backbroken = ymake_btn("backbtn.png",backx,35,backImageID,"brokenlog")
 
 
 //scroll resourses list
@@ -152,6 +157,7 @@ scroll_btns_add(790,190,"showres","scroll_res")
 
 instractionsBtns()
 
+make_broken_btn()
 
 yaddw("game",button)
 ///////////////////////////end buttons///////////////
@@ -365,7 +371,20 @@ function myupdate()
 		click_potion_list()
 
 	endif
-	///////end fight world/////////
+	///////end potions world/////////
+	
+	////broken item log screen world/////
+	if worlds[current_worldi].name="brokenlog"
+		if is_clicked(backbroken) 
+			DeleteAllText()
+			ydebug = ""
+			changeworld("colres")
+			resource_world_btns_init()
+		endif
+		
+
+	endif
+	///////end broken item log screen world/////////
 	
 	
 	
@@ -377,6 +396,7 @@ function myupdate()
 	if won=0 and has_res("long boat")
 		won = 1
 		//go to win screen
+		DeleteAllText()
 		changeworld("win")
 	endif
 
@@ -401,6 +421,8 @@ function ymake_btn(src as string,x as float,y as float,id,world as string)
 	if id = backImageID then SetSpriteSize(btn.id,300,90)
 	if id = saveImageID then SetSpriteSize(btn.id,300,90)
 	if id = loadImageID then SetSpriteSize(btn.id,300,90)
+	
+//	SetSpriteColor(btn.id,147,192,158,255)
 	
 endfunction btn
 
@@ -491,6 +513,16 @@ function backBtnDo(btn as yentity)
 	
 endfunction
 
+function backBtnDow(btn as yentity,w as string)
+	
+		if is_clicked(btn) 
+			DeleteAllText()
+			ydebug = ""
+			changeworld(w)
+		endif
+	
+endfunction
+
 
 
 
@@ -550,10 +582,13 @@ build ship
 
 
 
-cenlog:
+devlog:
 *new weapons:spear,obsidian knife
 *new upgrades: even faster auto clicker, maste crafter
 *lowe price for click upgrades
 *html version
+-------
+*broken item alert and log screen
+*sell 10 items and craft 5 at a time btns
 
 */

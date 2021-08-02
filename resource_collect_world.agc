@@ -23,7 +23,7 @@ make_res("wood",1,10)
 make_res("wood shovel",0,10)
 make_res("wood spear",0,10)
 make_res("stone hammer",0,25)
-make_res("forg",0,150)
+make_res("forge",0,150)
 make_res("copper ore",0,10)
 make_res("tin ore",0,10)
 make_res("bronze",0,25)
@@ -138,15 +138,23 @@ function res_chance_to_break(n as string, chance)
 	ret = 0
 	res as resource
 	res = get_res(n)
-	rand1 = random(1,100)
+	rand1 = random(1,200)
 	rand2 = random(1,100)
 	if isUpgradeActive("master crafter")  and rand2>30 then exitfunction 0 //
-	if rand1 <= chance 
+	if rand1 <= chance //it broke
 		ret = 1
 		red_res(n,1)
 		//if its a bronze item you have 50% chance to get the bronze back
 		if FindStringCount(n,"bronze") and rand2<50 then inc_res("bronze",1)
-	endif
+		//broken log
+		if worlds[current_worldi].name="colres"
+			amt = res.amount//reduce amount to show
+			dec amt
+			bokenlogs = bokenlogs+n+" was broken, you have: "+str(amt)+chr(10)+chr(13)
+			SetVirtualButtonVisible(broken.id,1)
+			SetVirtualButtonActive(broken.id,1)
+		endif
+	endif //rand1 <= chance 
 endfunction ret
 
 ////////////////end resource class//////////////////////
@@ -166,6 +174,7 @@ function resource_world_btns_init()
 	global collect_volcano as yentity
 	global graveyardbtn as yentity
 	global potionbtn as yentity
+	
 	//remove old ones 
 	remove_by_type("colresbtn","colres")
 	//back btn add
@@ -202,6 +211,13 @@ function resource_world_btns_init()
 		recycle("colres",graveyardbtn)
 	endif
 	
+	//show log btn
+	if len(bokenlogs)>0
+			SetVirtualButtonVisible(broken.id,1)
+		else
+			SetVirtualButtonVisible(broken.id,0)
+			SetVirtualButtonActive(broken.id,0)
+	endif
 	
 	
 	//add back and forest btns
@@ -214,7 +230,6 @@ endfunction
 
 function resource_world_click()
 
-	
 	
 	clicked_forest()
 	mine_clicked()
@@ -233,6 +248,22 @@ function resource_world_click()
 		endif
 	endif
 
+	//click broken red btn
+	btns as ybtn[]
+	btns = getYbtnByType("brokenbtn")
+	for i=0 to btns.length
+		if ybtnReleased(btns[i]) 
+			 changeworld("brokenlog") 
+			 CreateText(1,bokenlogs)
+			 SetTextSize ( 1, 30 )
+			 SetTextPosition ( 1, 30, 150 )
+			 SetTextColor(1,255,0,0,255)
+			 bokenlogs = ""
+			 SetVirtualButtonVisible(broken.id,0)
+			 SetVirtualButtonActive(broken.id,0)
+			
+		endif
+	next i
 endfunction
 
 function clicked_forest()
@@ -278,7 +309,7 @@ function clicked_forest()
 				res = get_res("stone hand axe")
 				if res.amount>0 
 					 get_random_res("you choped wood!",80,100,rand1,"wood",1)
-					 res_chance_to_break(res.name,18) 
+					 res_chance_to_break(res.name,10) 
 					 exitfunction //use only the best tool
 				endif
 
@@ -461,6 +492,7 @@ function show_resources(x,y)
 	btn as yentity
 	DeleteAllText()
 	remove_by_type("sell_res","showres")
+	remove_by_type("sell10_res","showres")
 	//set top y to resourse scroll top
 	top = 50+res_scroll.top
 	res as resource
@@ -482,6 +514,13 @@ function show_resources(x,y)
 				btn.ystrings.insert(resource_db[i].name) //res name
 				btn.yints.insert(i) //res id (index)
 				recycle("showres",btn)
+				SetSpriteScale(btn.id,0.4,1)
+				//sell 10
+				btn = ymake_btn2("sellten.png",x+500,y+top-10,sell10ImageID,"sell10_res")
+				btn.ystrings.insert(resource_db[i].name) //res name
+				btn.yints.insert(i) //res id (index)
+				recycle("showres",btn)
+				SetSpriteScale(btn.id,0.4,1)
 			endif
 		endif
 	next i
@@ -502,6 +541,19 @@ function sell_res_click()
 			ydebug = "sold 1 "+btns[i].ystrings[0]+" for: "+str(sell_points)+" points"
 		endif
 	next i
+	
+	//sell 10 click event
+	btns = get_by_type("sell10_res")
+	
+	//remove btn entities
+	for i = 0 to btns.length
+		if is_clicked(btns[i])
+			
+			sell_points = sell_res_don( btns[i].ystrings[0],10) //sell res by name
+			if sell_points = 0 then exitfunction
+			ydebug = "sold 10 "+btns[i].ystrings[0]+" for: "+str(sell_points)+" points"
+		endif
+	next i
 
 endfunction
 
@@ -510,6 +562,17 @@ function sell_res_do( n as string )
 	res = get_res(n)
 	rand = random(1,res.pointval)
 	red_res(n,1)
+	inc points,rand
+	show_resources(30,55)
+
+endfunction rand
+
+function sell_res_don( n as string,num )
+	res as resource
+	res = get_res(n)
+	if res.amount<10 then exitfunction 0
+	rand = random(1,res.pointval)*num
+	red_res(n,num)
 	inc points,rand
 	show_resources(30,55)
 

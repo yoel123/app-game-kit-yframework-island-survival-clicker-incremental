@@ -32,6 +32,7 @@ upgradesDb.insert( createUpgrade("bigger traps","lure the zombies to thier doom"
 upgradesDb.insert( createUpgrade("alchemy","create potions",900) )
 upgradesDb.insert( createUpgrade("graveyard","when you want more zombies",100) )
 upgradesDb.insert( createUpgrade("master crafter","tools you make tend to break less",500) )
+upgradesDb.insert( createUpgrade("dank ruins","a mysterious place that might hold treasure",300) )
 
 
 

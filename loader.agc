@@ -30,6 +30,8 @@ global creditsImageID = 26
 global instractionsImageID = 27
 global graveyardImageID = 28
 global contactmeImageID = 29
+global sell10ImageID = 30
+global craftDo5ImageID = 31
 
 loadImage(buttonImageID,"button.png")
 
@@ -76,3 +78,10 @@ function isYlocationActive(n as string)
 	next i 
 	
 endfunction ret
+
+
+function make_broken_btn()
+	broken = recYbtn(350,50,"",30,"colres","brokenbtn")
+	SetVirtualButtonColor(broken.id,255,0,0)
+	SetVirtualButtonVisible(broken.id,0)
+endfunction
